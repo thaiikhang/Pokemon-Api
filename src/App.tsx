@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import axios from 'axios';
-import PokemonCollection from './components/PokemonCollection';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import axios from "axios";
+import PokemonCollection from "./components/PokemonCollection";
 import { Pokemon, Detail } from "./interface";
 
 interface Pokemons {
-  name:string;
-  url:string;
+  name: string;
+  url: string;
 }
 
-const App:React.FC = () => {
+const App: React.FC = () => {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [nextUrl, setNextUrl] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [viewdetail, setDetail] = useState<Detail>({
-    id:0, //set id for storage
+    id: 0, //set id for storage
     isOpened: false,
-  })
+  });
   useEffect(() => {
     const getPokemon = async () => {
       const res = await axios.get(
@@ -48,18 +48,25 @@ const App:React.FC = () => {
   };
 
   return (
-  <div className='App'>
-    <div className="container">
-      <header className="pokemon-header">Pokemon</header>
-      <PokemonCollection pokemons={pokemons} viewDetail={viewdetail} setDetail={setDetail}/>
-      {!viewdetail.isOpened && (
-        <div className="btn">
-          <button onClick={nextPage}> {loading ? "Loading..." : "Load more"} </button>
-        </div>
-      )}
+    <div className="App">
+      <div className="container">
+        <header className="pokemon-header">Pokemon</header>
+        <PokemonCollection
+          pokemons={pokemons}
+          viewDetail={viewdetail}
+          setDetail={setDetail}
+        />
+        {!viewdetail.isOpened && (
+          <div className="btn">
+            <button onClick={nextPage}>
+              {" "}
+              {loading ? "Loading..." : "Load more"}{" "}
+            </button>
+          </div>
+        )}
+      </div>
     </div>
-  </div>
   );
-}
+};
 
 export default App;
