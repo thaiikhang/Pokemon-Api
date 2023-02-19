@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import PokemonCollection from './components/PokemonCollection';
-import { Pokemon } from "./interface";
+import { Pokemon, Detail } from "./interface";
 
 interface Pokemons {
   name:string;
@@ -13,6 +13,10 @@ const App:React.FC = () => {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [nextUrl, setNextUrl] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [viewdetail, setDetail] = useState<Detail>({
+    id:0, //set id for storage
+    isOpened: false,
+  })
   useEffect(() => {
     const getPokemon = async () => {
       const res = await axios.get(
@@ -47,7 +51,7 @@ const App:React.FC = () => {
   <div className='App'>
     <div className="container">
       <header className="pokemon-header">Pokemon</header>
-      <PokemonCollection pokemons={pokemons}/>
+      <PokemonCollection pokemons={pokemons} viewDetail={viewdetail} setDetail={setDetail}/>
       <div className="btn">
         <button onClick={nextPage}> {loading ? "Loading..." : "Load more"} </button>
       </div>
